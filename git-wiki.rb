@@ -124,7 +124,7 @@ helpers do
   end
 end
 
-before { content_type 'text/html', :charset => 'utf-8' }
+#before { content_type 'text/html', :charset => 'utf-8' }
 
 get('/') { redirect '/' + Homepage }
 
