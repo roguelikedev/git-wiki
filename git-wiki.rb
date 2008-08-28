@@ -139,25 +139,25 @@ get '/_list' do
 end
 
 get '/:page' do
-  @page = Page.new(params[:page])
-  @page.tracked? ? haml(:show) : redirect("/e/#{@page.name}")
+  @page = Page.new(params['page'])
+  @page.tracked? ? haml(:show) : redirect("/e/#{@page}")
 end
 
 get '/:page.txt' do
-  @page = Page.new(params[:page])
-  throw :halt, [404, "Unknown page #{params[:page]}"] unless @page.tracked?
+  @page = Page.new(params['page'])
+  throw :halt, [404, "Unknown page #{params['page']}"] unless @page.tracked?
   content_type 'text/plain', :charset => 'utf-8'
   @page.raw_body
 end
 
 get '/e/:page' do
-  @page = Page.new(params[:page])
+  @page = Page.new(params['page'])
   haml :edit
 end
 
 post '/e/:page' do
-  @page = Page.new(params[:page])
-  @page.body = params[:body]
+  @page = Page.new(params['page'])
+  @page.body = params['body']
   request.xhr? ? @page.body : redirect("/#{@page.name}")
 end
 
