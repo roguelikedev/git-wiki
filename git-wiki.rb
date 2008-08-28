@@ -166,7 +166,7 @@ __END__
 !!! strict
 %html
   %head
-    %title= title
+    %title git-wiki
     %link{:rel => 'stylesheet', :href => '/_stylesheet.css', :type => 'text/css'}
     - Dir[Sinatra.application.options.public + '/*.js'].reverse.each do |lib|
       %script{:src => "/#{File.basename(lib)}", :type => 'text/javascript'}
@@ -194,7 +194,6 @@ __END__
     #content= yield
 
 @@ show
-- title @page.name.titleize
 :javascript
   $(document).ready(function() {
     $.editable.addInputType('autogrow', {
@@ -239,14 +238,12 @@ __END__
     })
   })
 %a#edit_link{:href => "/e/#{@page}"} edit this page
-%h1= title
+%h1 show
 #page_content
   ~"#{@page.body}"
 
 @@ edit
-- title "Editing #{@page.name.titleize}"
-
-%h1= title
+%h1 edit
 %form{:method => 'POST', :action => "/e/#{@page}"}
   %p
     %textarea{:name => 'body', :rows => 16, :cols => 60}= @page.raw_body
@@ -256,8 +253,6 @@ __END__
     %a.cancel{:href=>"/#{@page}"} cancel
 
 @@ list
-- title "Listing pages"
-
 %h1 All pages
 - if @pages.empty?
   %p No pages found.
@@ -265,9 +260,11 @@ __END__
   %ul#pages_list
   - @pages.each_with_index do |page, index|
     - if (index % 2) == 0
-      %li.odd= list_item(page)
+      %li.odd
+        %a{:href => "/#{page}"}= page.name.titleize
     - else
-      %li.even= list_item(page)
+      %li.even
+        %a{:href => "/#{page}"}= page.name.titleize
 
 @@ stylesheet
 body
